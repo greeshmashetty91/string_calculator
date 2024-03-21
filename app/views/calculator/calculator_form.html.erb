@@ -1,0 +1,49 @@
+<%= form_tag add_numbers_path, method: :post, id: "new_numbers_form" do %>
+    <%= label_tag :numbers, "Enter numbers:" %>
+    <%= text_area_tag :numbers, nil, rows: 5 %>
+    <%= submit_tag "Calculate" %>
+<% end %>
+  
+<div id="result_section">
+    <!-- Result will be displayed here -->
+</div>
+  
+  
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("#new_numbers_form");
+    const submitButton = document.querySelector("#submit_button");
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const formData = new FormData(form);
+      const jsonData = {};
+      formData.forEach((value, key) => {
+        jsonData[key] = value;
+      });
+
+      fetch(form.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(jsonData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle response data here
+        const resultSection = document.querySelector("#result_section");
+        if (data.hasOwnProperty("result")) {
+          resultSection.innerHTML = `<p>Result: ${data.result}</p>`;
+        } else if (data.hasOwnProperty("error")) {
+          resultSection.innerHTML = `<p>Error: ${data.error}</p>`;
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    });
+  });
+</script>

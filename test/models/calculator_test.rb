@@ -21,8 +21,9 @@ class CalculatorTest < ActiveSupport::TestCase
     assert_equal 6, Calculator.add("1\n2,3")
   end
 
-  test "input with invalid format return error message" do
-    assert_equal "Numbers value is invalid", Calculator.add("1,\n")
+  test "input with invalid format raises error with invalid message" do
+    exception = assert_raises(StringCalculator::Errors::InvalidNumber) { Calculator.add("1,\n") }
+    assert_equal "Numbers value is invalid", exception.message
   end
 
   test "custom delimiter is supported" do
