@@ -8,4 +8,8 @@ class CalculatorTest < ActiveSupport::TestCase
   test "single number returns the number itself" do
     assert_equal 1, Calculator.add("1")
   end
+
+  test "two numbers separated by comma return their sum" do
+    assert_equal 6, Calculator.add("1,5")
+  end
 end
