@@ -16,4 +16,8 @@ class CalculatorTest < ActiveSupport::TestCase
   test "multiple numbers separated by comma return their sum" do
     assert_equal 15, Calculator.add("1,2,3,4,5")
   end
+
+  test "multiple numbers are separated by comma or new line return their sum" do
+    assert_equal 6, Calculator.add("1\n2,3")
+  end
 end
