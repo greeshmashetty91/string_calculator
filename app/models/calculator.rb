@@ -15,7 +15,8 @@ class Calculator
         # Keeping the new line and the delimiter here because step 3 says to separate numbers with new line as well
         numbers_array = numbers.split(/[\n#{delimiter}]+/)
 
-        return "Numbers value is invalid" if numbers_array.any?(&:empty?) || numbers =~ /(?:\n#{delimiter}|#{delimiter}\n)/
+        # Changed the return message to raising error with message so as to handle the error message properly
+        raise StringCalculator::Errors::InvalidNumber, "Numbers value is invalid" if numbers_array.any?(&:empty?) || numbers =~ /(?:\n#{delimiter}|#{delimiter}\n)/
 
         # Checking if there are any negative values in the array
         negatives = numbers_array.select { |num| num.to_i.negative? }
