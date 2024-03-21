@@ -28,4 +28,12 @@ class CalculatorTest < ActiveSupport::TestCase
   test "custom delimiter is supported" do
     assert_equal 3, Calculator.add("//;\n1;2")
   end
+
+  test "negative numbers are not allowed" do
+    exception = assert_raises(StringCalculator::Errors::NegativeNumberFound) { Calculator.add("//;\n1;-2;3") }
+    assert_equal "Negative numbers not allowed: -2", exception.message
+
+    exception = assert_raises(StringCalculator::Errors::NegativeNumberFound) { Calculator.add("-1,2,-3") }
+    assert_equal "Negative numbers not allowed: -1,-3", exception.message
+  end
 end

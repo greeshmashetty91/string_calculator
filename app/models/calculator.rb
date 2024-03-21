@@ -16,6 +16,13 @@ class Calculator
         numbers_array = numbers.split(/[\n#{delimiter}]+/)
 
         return "Numbers value is invalid" if numbers_array.any?(&:empty?) || numbers =~ /(?:\n#{delimiter}|#{delimiter}\n)/
+
+        # Checking if there are any negative values in the array
+        negatives = numbers_array.select { |num| num.to_i.negative? }
+        if negatives.any?
+            raise StringCalculator::Errors::NegativeNumberFound, "Negative numbers not allowed: #{negatives.join(',')}"
+        end
+
         numbers_array.map(&:to_i).sum
     end
 end
